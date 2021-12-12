@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "whitrabt";
+  src: url("@a/whitrabt.woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "neon";
+  src: url("@a/neonSans.woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.popup-enter-active {
+  --flip:scaleX(-1);
+  animation: popupEnterActive .5s ease-out both;
+}
+.popup-leave-active {
+  animation: popupEnterActive .5s ease-out both reverse;
+}
+@keyframes popupEnterActive {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+
+.fade-in-enter-active {
+  animation: fadeInEnterActive .4s ease-out both;
+}
+.fade-in-leave-active {
+  animation: fadeInEnterActive .4s ease-out both reverse;
+}
+
+@keyframes fadeInEnterActive {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: $border;
+  background-color: rgba($side-2,.6);
+}

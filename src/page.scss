@@ -1,0 +1,21 @@
+$main : #f1dac4;
+$side-1 : #A69CAC;
+$side-2 : #474973;
+$side-3 : #151a32;
+$bg : #0d0c1d;
+
+$border:$main solid 2px;
+$bor_width : 2px;
+
+@mixin style($type:""){
+  @at-root body.#{$type}{
+    & {
+      @content;
+    }
+  }
+}
+@mixin flip{
+  @at-root body.flip &{
+    transform: scaleX(-1);
+  }
+}
