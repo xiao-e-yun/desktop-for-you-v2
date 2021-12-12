@@ -11,5 +11,6 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2670119805
     pnpm i ; pnpm tools_build ; pnpm build
     pnpm build
     
-將會生成 dist 使用 `mklink /D dist \steamapps\common\wallpaper_engine\projects\myprojects\MYPROJECT` 或是  
+build 完成後將會生成 dist  
+使用 `mklink /D dist \steamapps\common\wallpaper_engine\projects\myprojects\MYPROJECT` 或是  
 直接建構在 projects 底下
