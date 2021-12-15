@@ -853,7 +853,9 @@ function panel(id: string, text: TextLang, base_setting:{
 } , props: Prop[] = []) {
   let title: TextLang = {}
   if (typeof text === "string") title = `<h1>${text}</h1>`
-  else for (const lang in text) title[lang] = `<h1>${text[lang]}<small>${text["en-us"] || ""}</small></h1>`
+  else for (const lang in text) 
+    title[lang] = `<h1>${text[lang] + (lang==="en-us" ? "" : "<small>"+(text["en-us"] || "")+"</small>")}</h1>`
+  
 
   return {
     label: text,
