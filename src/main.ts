@@ -1,8 +1,8 @@
-import { createApp, reactive } from 'vue'
+import { createApp } from 'vue'
 import builder from '../builder/browser'
 import types_json from "../types.json"
 import { store, key as store_key } from '@/store'
-import App from '@/app.vue'
+import app from '@/app.vue'
 
 if(!store.state.dev) (($console: Console) => {
   function timeline() {
@@ -90,6 +90,6 @@ builder(window, types_json, {
 
 store.commit("render_mode")
 
-createApp(App)
+createApp(app)
   .use(store, store_key)
   .mount('body')
