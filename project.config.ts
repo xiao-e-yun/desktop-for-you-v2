@@ -470,7 +470,7 @@ builder.config.builder({
             text: {
               "zh-cht": "<h2>音效可視化<small>Visualization</small></h2>",
               "zh-chs": "<h2>音效可视化<small>Visualization</small></h2>",
-              "en-us": "<h2>Visualization</h2>",
+              "en-us": "<h1>Visualization</h1>",
             },
             list: [
 
@@ -725,8 +725,8 @@ builder.config.builder({
           {
             id: "other",
             text: {
-              "zh-cht": "<h1>其他<small>Other</small></h1>",
-              "zh-chs": "<h1>其他<small>Other</small></h1>",
+              "zh-cht": "<h2>其他<small>Other</small></h2>",
+              "zh-chs": "<h2>其他<small>Other</small></h2>",
               "en-us": "<h1>Other</h1>",
             }
           },
@@ -854,7 +854,9 @@ function panel(id: string, text: TextLang, base_setting:{
   let title: TextLang = {}
   if (typeof text === "string") title = `<h1>${text}</h1>`
   else for (const lang in text) 
-    title[lang] = `<h1>${text[lang] + (lang==="en-us" ? "" : "<small>"+(text["en-us"] || "")+"</small>")}</h1>`
+    title[lang] = lang === "en-us" ?
+      `<h1>${text[lang]}</h1>` :
+      `<h2>${text[lang]}<small>${text["en-us"] || ""}</small></h2>`
   
 
   return {
