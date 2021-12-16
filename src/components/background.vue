@@ -4,9 +4,8 @@ transition(name="fade-in" appear)
     :style="style"
     :src="type.src()"
     :is="type.is"
-    :loop="type.is===video"
-    :autoplay="type.is==='video'"
     v-if="type"
+    v-bind="bind"
 
     :class="{changing}"
     v-on="mouse.event"
@@ -57,6 +56,11 @@ const type = computed(() => {
     },
   ][i]
 })
+
+const bind = computed(()=>(type.value && type.value.is)?{
+  loop:type.value.is==='video',
+  autoplay:type.value.is==='video'
+}:{})
 
 const style = computed(() => {
   const change = (changing.value||(mouse.down && mouse.allow))
