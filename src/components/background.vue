@@ -4,6 +4,8 @@ transition(name="fade-in" appear)
     :style="style"
     :src="type.src()"
     :is="type.is"
+    :loop="type.is===video"
+    :autoplay="type.is==='video'"
     v-if="type"
 
     :class="{changing}"
