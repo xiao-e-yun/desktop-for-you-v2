@@ -49,7 +49,6 @@ const type = computed(() => {
         let over_index = index.value as number + pos
         if(over_index >= length) over_index = over_index as number - length
         if(over_index < 0) over_index = length + (over_index as number)
-        console.log(index)
         return this.list[over_index as number]
       },
       list: (fetch["menu/bg_file/dir_img"] || ["background.png"])
@@ -72,7 +71,6 @@ const style = computed(() => {
     "--pos": change ? `calc(100% - var(--offset))` : null,
   } as CSSProperties
 })
-
 
 
 
@@ -120,6 +118,7 @@ const mouse = reactive({
 })
 function change(){
   const length = (type.value?.list && type.value.list.length) as number
+  if(!length) return
   
   const add = mouse.move > 0 ? 1 : -1 as number
   index.value = index.value as number + add
@@ -128,6 +127,7 @@ function change(){
 
   changing.value = false
 }
+
 const changing = ref(false)
 const offset = computed(()=>Math.min(mouse.move * 10 / mouse.max,mouse.max))
 </script>
