@@ -1,4 +1,4 @@
-import { RealName } from '@/main'
+import { RealName } from "@/main"
 
 export interface State {
   /** 桌布屬性 */

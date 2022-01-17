@@ -49,6 +49,7 @@ const style = computed(()=>{
       left: $("pos/left") + "%",
       fontSize: $("size") + "px",
       backdropFilter: `blur(${$("bg/blur")}px)`,
+      borderRadius: $("radius") + "px",
     },
     ...{
       "--color": $("color") ? $("color") : null,

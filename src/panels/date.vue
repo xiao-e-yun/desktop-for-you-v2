@@ -2,7 +2,7 @@
 Panel#date(name="menu/date")
   div.flip(v-if="store.state.flip")
     p 
-      span {{ pad(time.month) }}
+      span {{ pad(time.month+1) }}
       |&nbsp;|&nbsp;
       span {{ pad(time.date) }}
     p(
@@ -11,7 +11,7 @@ Panel#date(name="menu/date")
     ) &nbsp;{{ week }}
   template(v-else)
     p 
-      span {{ pad(time.month) }}
+      span {{ pad(time.month+1) }}
       |&nbsp;|&nbsp;
       span {{ pad(time.date) }}
     p(

@@ -1,14 +1,14 @@
-import builder from './builder/node';
-import { Prop, TextLang } from './builder/node/config/prop_type';
+import builder from "./builder/node"
+import { Prop, TextLang } from "./builder/node/config/prop_type"
 const ignore = true
 
 builder.config.builder({
-  title: 'Desktop For You v2',
+  title: "Desktop For You v2",
   audio: true,
   type: "Web",
   contentrating: "Everyone",
   visibility: "friends",
-  description: 'Not to give up high performance and at the same time,\nThe first choice to ensure scalability and stability.\n\nThe tree-like setting menu makes it easier to find functions\nAutomatically limit fps, reduce CPU power consumption\n\n\nSupport settings\n√ Custom style\n√ Background\n√ Clock\n√ Calendar\n√ Logo\n√ Visualization\n√ Developer mode',
+  description: "Not to give up high performance and at the same time,\nThe first choice to ensure scalability and stability.\n\nThe tree-like setting menu makes it easier to find functions\nAutomatically limit fps, reduce CPU power consumption\n\n\nSupport settings\n√ Custom style\n√ Background\n√ Clock\n√ Calendar\n√ Logo\n√ Visualization\n√ Developer mode",
   preview: "preview.jpg",
   tags: ["Relaxing"],
   workshopid: "2670119805",
@@ -49,7 +49,7 @@ builder.config.builder({
 
   {
     id: "style",
-    type: 'combo',
+    type: "combo",
     icon: "fa-desktop",
     text: {
       "zh-cht": "桌布風格",
@@ -308,7 +308,7 @@ builder.config.builder({
         "zh-cht": "時鐘",
         "zh-chs": "时钟",
         "en-us": "Clock",
-      },{
+      }, {
         size: 120,
         left: 68,
         top: 68,
@@ -341,11 +341,11 @@ builder.config.builder({
         "zh-cht": "日曆",
         "zh-chs": "日历",
         "en-us": "Calendar",
-      },{
+      }, {
         size: 56,
         left: 74,
         top: 59,
-      } ,[
+      }, [
         {
           id: "week",
           type: "item",
@@ -419,14 +419,14 @@ builder.config.builder({
               {
                 id: "file",
                 type: "file",
-                text:{
+                text: {
                   "zh-cht": "檔案",
                   "zh-chs": "文件",
                   "en-us": "File",
                 },
                 value: "",
               },
-              pos(true,{left: 39, top: 34}),
+              pos(true, { left: 39, top: 34 }),
               shadow(true),
               {
                 id: "width",
@@ -465,16 +465,112 @@ builder.config.builder({
         value: [
           {
             id: "visualization",
-            type: "item",
-            value: true,
+            type: "menu",
+            value: 1,
             text: {
               "zh-cht": "<h2>音效可視化<small>Visualization</small></h2>",
               "zh-chs": "<h2>音效可视化<small>Visualization</small></h2>",
               "en-us": "<h1>Visualization</h1>",
             },
-            list: [
+            options: ((base: Prop[]) => {
+              return [
+                {
+                  label: {
+                    "zh-cht": "關閉",
+                    "zh-chs": "关闭",
+                    "en-us": "Close",
+                  },
+                  value: []
+                },
+                {
+                  label: {
+                    "zh-cht": "條形",
+                    "zh-chs": "条形",
+                    "en-us": "Bars",
+                  },
+                  value: [
+                    {
+                      id: "direction",
+                      type: "combo",
+                      value: "bars",
+                      text: {
+                        "zh-cht": "方向",
+                        "zh-chs": "方向",
+                        "en-us": "Direction",
+                      },
+                      options: [
+                        {
+                          label: {
+                            "zh-cht": "豎向",
+                            "zh-chs": "竖向",
+                            "en-us": "Vertical",
+                          },
+                          value: "vertical",
+                        },
+                        {
+                          label: {
+                            "zh-cht": "横向",
+                            "zh-chs": "横向",
+                            "en-us": "Horizontal",
+                          },
+                          value: "horizontal",
+                        },
+                      ]
+                    },
 
+                    ...base,
+                  ]
+                },
+                {
+                  label: {
+                    "zh-cht": "圓形",
+                    "zh-chs": "圆形",
+                    "en-us": "Circles",
+                  },
+                  value: [
+                    ...base,
+                  ]
+                },
+              ]
 
+              //共同
+            })([
+              {
+                id: "audio_direction",
+                type: "combo",
+                value: "bars",
+                text: {
+                  "zh-cht": "音頻方向",
+                  "zh-chs": "音频方向",
+                  "en-us": "Audio direction",
+                },
+                options: [
+                  {
+                    label: {
+                      "zh-cht": "上/外",
+                      "zh-chs": "上/外",
+                      "en-us": "Up/Out",
+                    },
+                    value: "up",
+                  },
+                  {
+                    label: {
+                      "zh-cht": "下/內",
+                      "zh-chs": "下/内",
+                      "en-us": "Down/In",
+                    },
+                    value: "down",
+                  },
+                  {
+                    label: {
+                      "zh-cht": "兩者",
+                      "zh-chs": "两者",
+                      "en-us": "Both",
+                    },
+                    value: "both",
+                  }
+                ]
+              },
 
 
               {
@@ -705,14 +801,15 @@ builder.config.builder({
                 ],
               },
 
-              pos(false,{
-                left:1,
-                top:95,
+              pos(false, {
+                left: 1,
+                top: 95,
               })
-            ]
+            ])
           },
-        ],
+        ]
       },
+
 
 
       {
@@ -791,7 +888,7 @@ builder.config.builder({
           value: false
         },
         wec_brs: {
-          icon: 'fa-sun',
+          icon: "fa-sun",
           condition: "browse_settings.value === true",
           max: 100,
           min: 0,
@@ -800,7 +897,7 @@ builder.config.builder({
           value: 50
         },
         wec_con: {
-          icon: 'fa-adjust',
+          icon: "fa-adjust",
           condition: "browse_settings.value === true",
           max: 100,
           min: 0,
@@ -809,7 +906,7 @@ builder.config.builder({
           value: 50
         },
         wec_hue: {
-          icon: 'fa-palette',
+          icon: "fa-palette",
           condition: "browse_settings.value === true",
           max: 100,
           min: 0,
@@ -818,7 +915,7 @@ builder.config.builder({
           value: 50
         },
         wec_sa: {
-          icon: 'fa-tint',
+          icon: "fa-tint",
           condition: "browse_settings.value === true",
           max: 100,
           min: 0,
@@ -827,16 +924,16 @@ builder.config.builder({
           value: 50
         }
       },
-      localization:{
-        "zh-cht":{
+      localization: {
+        "zh-cht": {
           ui_$browse_settings: "系統配置",
           ui_$divider_1: "桌布設置&nbsp;",
         },
-        "zh-chs":{
+        "zh-chs": {
           ui_$browse_settings: "系统配置",
           ui_$divider_1: "桌布设置&nbsp;",
         },
-        "en-us":{
+        "en-us": {
           ui_$browse_settings: "System Settings",
           ui_$divider_1: "Wallpaper Settings&nbsp;",
         },
@@ -846,18 +943,18 @@ builder.config.builder({
 })
 
 
-function panel(id: string, text: TextLang, base_setting:{
+function panel(id: string, text: TextLang, base_setting: {
   size: number,
   left: number,
   top: number,
-} , props: Prop[] = []) {
+}, props: Prop[] = []) {
   let title: TextLang = {}
   if (typeof text === "string") title = `<h1>${text}</h1>`
-  else for (const lang in text) 
+  else for (const lang in text)
     title[lang] = lang === "en-us" ?
       `<h1>${text[lang]}</h1>` :
       `<h2>${text[lang]}<small>${text["en-us"] || ""}</small></h2>`
-  
+
 
   return {
     label: text,
@@ -1005,9 +1102,9 @@ function panel(id: string, text: TextLang, base_setting:{
 
             ]
           },
-          pos(false,{
-            left:base_setting.left,
-            top:base_setting.top
+          pos(false, {
+            left: base_setting.left,
+            top: base_setting.top
           }),
           {
             ignore,
@@ -1021,6 +1118,20 @@ function panel(id: string, text: TextLang, base_setting:{
               "zh-cht": "大小<small>px</small>",
               "zh-chs": "大小<small>px</small>",
               "en-us": "Size<small>px</small>",
+            },
+          },
+          {
+            ignore,
+            id: "radius",
+            type: "slider",
+            max: 120,
+            min: 0,
+            step: 1,
+            value: 0,
+            text: {
+              "zh-cht": "圓角<small>px</small>",
+              "zh-chs": "圆角<small>px</small>",
+              "en-us": "Radius<small>px</small>",
             },
           },
           {
@@ -1041,8 +1152,8 @@ function panel(id: string, text: TextLang, base_setting:{
 }
 
 function pos(
-  over: boolean = false,
-  pos:{left: number, top: number} = {left: 0, top: 0}
+  over = false,
+  pos: { left: number, top: number } = { left: 0, top: 0 }
 ) {
   const size = {
     type: "slider",
@@ -1088,7 +1199,7 @@ function pos(
   }
 }
 
-function shadow(drop: boolean = false) {
+function shadow(drop = false) {
   return {
     ignore,
     id: (drop ? "drop_" : "") + "shadow",
