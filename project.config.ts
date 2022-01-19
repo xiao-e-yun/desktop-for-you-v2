@@ -188,7 +188,7 @@ builder.config.builder({
                         ]
                       }
                     ]
-                  }
+                  },
                 ]
               },
               {
@@ -435,6 +435,7 @@ builder.config.builder({
                 step: .2,
                 min: 0,
                 value: 45,
+                precision: 1,
                 text: {
                   "zh-cht": "大小<small>%</small>",
                   "zh-chs": "大小<small>%</small>",
@@ -1154,7 +1155,7 @@ function panel(id: string, text: TextLang, base_setting: {
 function pos(
   over = false,
   pos: { left: number, top: number } = { left: 0, top: 0 }
-) {
+):Prop {
   const size = {
     type: "slider",
     max: 100,
@@ -1175,31 +1176,31 @@ function pos(
     list: [
       {
         ignore,
-        id: "left",
         ...size,
+        id: "left",
         value: pos.left,
         text: {
           "zh-cht": " 距離左邊<small>%</small>",
           "zh-chs": " 距离左边<small>%</small>",
           "en-us": " To the left<small>%</small>",
         }
-      },
+      } as Prop,
       {
         ignore,
-        id: "top",
         ...size,
+        id: "top",
         value: pos.top,
         text: {
           "zh-cht": " 距離上方<small>%</small>",
           "zh-chs": " 距离上方<small>%</small>",
           "en-us": " To the top<small>%</small>",
         }
-      }
+      } as Prop,
     ]
   }
 }
 
-function shadow(drop = false) {
+function shadow(drop = false):Prop {
   return {
     ignore,
     id: (drop ? "drop_" : "") + "shadow",
