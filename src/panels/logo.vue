@@ -16,6 +16,7 @@ import { computed } from 'vue';
 
 const props = use_store().state.props
 const width = computed(() => props['menu/logo/width'] + '%')
+console.log("[標誌] 加載完成")
 </script>
 
 <style lang="scss">

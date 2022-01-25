@@ -38,6 +38,7 @@ const format: { [lang: string]: string[] } = {
 const week = computed(() => props["menu/date/week"] && format[props["menu/date/week/format"] as string][time.day])
 
 function pad(time: number) { return time.toString().padStart(2, "0") }
+console.log("[日曆] 加載完成")
 </script>
 
 <style lang="scss">

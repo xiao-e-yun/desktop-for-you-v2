@@ -51,6 +51,7 @@ export default defineConfig(({ mode }) => {
         '@a': '/src/assets',
         '@c': '/src/components',
         '@p': '/src/panels',
+        '@f': '/src/fx',
       }
     },
     plugins,

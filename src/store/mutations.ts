@@ -67,7 +67,7 @@ export default {
 		store.commit("sync_time", true)
 
 		if (Object.keys(high_ute).length === 0) state._sync_timer = setInterval(() => store.commit("sync_time"), 100)
-		else {
+		else if(state.high_ute.old === 0) {
 			if (state._sync_timer) clearInterval(state._sync_timer)
 
 			let last = 0
@@ -84,8 +84,8 @@ export default {
 				last = now
 			}
 			requestAnimationFrame(request_animation)
-
 		}
+    state.high_ute.old = high_ute.length
 	},
 	audio(state,data:number[]){ state.visualization.data = data },
 	flip( state, flip:boolean){ state.flip = flip },

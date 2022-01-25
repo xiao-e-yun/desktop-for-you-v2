@@ -1,5 +1,5 @@
 <template lang="pug">
-transition(name="fade-in" appear)
+transition(name="fade-in" appear :class="{dev:props['menu/dev_tools']}")
   component#background(
     :style="style"
     :src="type.src()"
@@ -150,6 +150,11 @@ const offset = computed(()=>Math.min(mouse.move * 10 / mouse.max,mouse.max))
 #background {
   left: 0;
   transition: none;
+  transition: filter .6s ease-in-out;
+
+  &.dev {
+    filter: brightness(.2);
+  }
 }
 #background-over {
   &.left { left: -100%; }

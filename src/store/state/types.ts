@@ -14,6 +14,7 @@ export interface State {
   high_ute:{
     _:{[key:string]:(()=>void)|undefined},
     callbacks:(()=>void)[]
+    old:number,
     length:number
   }
   /** 音效可視化 */
@@ -24,8 +25,6 @@ export interface State {
   _sync_timer?:NodeJS.Timer
   /** 效果 */
   flip:boolean
-  /** 開發者模式 */
-  dev:boolean
 }
 
 

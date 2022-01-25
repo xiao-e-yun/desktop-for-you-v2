@@ -3,7 +3,8 @@ div(
   :style="style"
   ref="el"
   @mousedown="mousedown"
-): slot
+)
+  slot
 </template>
 
 <script lang="ts">
@@ -75,6 +76,6 @@ export default defineComponent({
       this.style.left = left.toString() + "px"
       this.style.top = top.toString() + "px"
     }
-  }
+  },
 })
 </script>

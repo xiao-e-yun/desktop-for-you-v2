@@ -26,6 +26,7 @@ const hour = computed(() => pad(military_time ? time.hour % 12 : time.hour))
 const apm = computed(() => time.hour < 12 ? "AM" : "PM")
 
 function pad(time: number) { return time.toString().padStart(2, "0") }
+console.log("[時鐘] 加載完成")
 </script>
 
 <style lang="scss">

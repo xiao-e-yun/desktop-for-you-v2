@@ -1,6 +1,8 @@
 <template lang="pug">
 Background
 
+Sakura
+
 Visualization
 
 Clock
@@ -11,12 +13,13 @@ Console
 </template>
 
 <script lang="ts" setup>
-import Visualization from '@c/visualization.vue';
+import Visualization from '@/visualization/index.vue';
 import Background from '@c/background.vue';
 import Console from '@c/console.vue'
 import Clock from '@p/clock.vue';
 import Date from '@p/date.vue';
 import Logo from '@p/logo.vue';
+import Sakura from '@f/sakura/index.vue';
 </script>
 
 <style lang="scss">

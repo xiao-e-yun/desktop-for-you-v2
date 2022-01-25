@@ -8,6 +8,7 @@ export default {
 	spf:0,
 	high_ute:{
 		_:{},
+    old:0,
 		length:0,
 		callbacks:[],
 	},
@@ -15,5 +16,4 @@ export default {
 		data:[]
 	},
 	flip:false,
-	dev:(()=>import.meta.env.MODE === "development" && (console.log("開發者模式") as undefined || true))(),
 } as State
