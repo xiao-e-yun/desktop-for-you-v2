@@ -1,5 +1,5 @@
 <template lang="pug">
-canvas#sakura(
+transition(name="fade-in" appear): canvas#sakura(
   ref="sakura"
   :width="width"
   :height="height"
@@ -42,7 +42,3 @@ const stop = watch(sakura,(canvas)=>{
 })
 
 </script>
-
-<style>
-#sakura { opacity: .4; }
-</style>

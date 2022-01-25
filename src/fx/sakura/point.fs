@@ -59,5 +59,5 @@ void main(void) {
     float alpha = (rstop > 0.001)? (0.5 - r / (rstop * 2.0)) : 1.0;
     alpha = smoothstep(0.0, 1.0, alpha) * palpha;
     
-    gl_FragColor = vec4(col * 0.5, alpha);
+    gl_FragColor = vec4(col * 0.5, alpha * 0.4);
 }
