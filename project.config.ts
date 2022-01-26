@@ -751,7 +751,7 @@ builder.config.builder(
                   max: 12,
                   step: 1,
                   min: 0,
-                  value: 3,
+                  value: 5,
                   text: {
                     "zh-cht": "間距<small>px</small>",
                     "zh-chs": "间距<small>px</small>",
@@ -850,8 +850,8 @@ builder.config.builder(
                 },
     
                 pos(false, {
-                  left: 1,
-                  top: 95,
+                  left: 100,
+                  top: 0,
                 },false),
               ],
             }

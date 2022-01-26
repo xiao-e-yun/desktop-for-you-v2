@@ -10,7 +10,7 @@ transition(name="fade-in" appear): canvas#sakura(
 
 <script lang="ts" setup>
 import { use_store } from "@/store";
-import { onMounted, ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import render from "."
 const sakura = ref<HTMLCanvasElement>();
 
@@ -23,8 +23,8 @@ const load = ref(false)
 
 const once = watch(()=>props['menu/effect/sakura'],(v)=>{
   if(!v) return
-  load.value = true
-  onMounted(()=>once())
+  load.value = true,
+  nextTick(()=>once())
 },{immediate:true})
 
 const stop = watch(sakura,(canvas)=>{

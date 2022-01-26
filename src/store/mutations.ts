@@ -54,38 +54,38 @@ export default {
     val: boolean,
     callback?: () => void | undefined,
   }) {
-		const high_ute = state.high_ute
+		const highUTE = state.high_ute
 		if (set) {
 			const name = set.name
-			const used = name in high_ute._
-			if (set.val && !used) high_ute._[name] = set.callback
-			else if (!set.val && used) delete high_ute._[name]
+			const used = name in highUTE._
+			if (set.val && !used) highUTE._[name] = set.callback
+			else if (!set.val && used) delete highUTE._[name]
 			else return //無視重複
 		}
-		high_ute.length = Object.keys(high_ute._).length
-		high_ute.callbacks = Object.values(high_ute._).filter(Boolean) as (() => void)[]
+		highUTE.length = Object.keys(highUTE._).length
+		highUTE.callbacks = Object.values(highUTE._).filter(Boolean) as (() => void)[]
 		store.commit("sync_time", true)
 
-		if (Object.keys(high_ute).length === 0) state._sync_timer = setInterval(() => store.commit("sync_time"), 100)
-		else if(state.high_ute.old === 0) {
+		if (highUTE.length === 0) state._sync_timer = setInterval(() => store.commit("sync_time"), 100)
+		else if(highUTE.old === 0) {
 			if (state._sync_timer) clearInterval(state._sync_timer)
 
 			let last = 0
 			const request_animation = (id: number)=>{
-				if (!state.high_ute.length) return // 停止
+				if (highUTE.length === 0) return // 停止
 				requestAnimationFrame(request_animation)
 				const now = performance.now()
 				if ((now - last) <= state.spf) return cancelAnimationFrame(id)
 				store.commit("sync_time")
 
-				const callbacks = high_ute.callbacks
+				const callbacks = highUTE.callbacks
 				let length = callbacks.length
 				while(length) callbacks[--length]()
 				last = now
 			}
 			requestAnimationFrame(request_animation)
 		}
-    state.high_ute.old = high_ute.length
+    highUTE.old = highUTE.length
 	},
 	audio(state,data:number[]){ state.visualization.data = data },
 	flip( state, flip:boolean){ state.flip = flip },
