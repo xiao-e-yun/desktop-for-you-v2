@@ -6,7 +6,7 @@
   "keywords": [],
   "description": "",
   "scripts": {
-    "build": "pnpm config_build && vite build",
+    "build": "pnpm config_build && vite build && rmdir /s /q dist\\assets",
     "dev": "pnpm config_build && vite build -m development -w",
     "config_build": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} ts-node project.config",
     "config_dev": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} nodemon --watch project.config.ts project.config.ts",
