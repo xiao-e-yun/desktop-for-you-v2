@@ -9,9 +9,6 @@ export default class Bars {
   draw(data: number[]) {
     if (!data.length) return
 
-    function sineOut(t: number) {
-      return Math.sin((t * Math.PI) / 2)
-    }
     const print = (offset: number) => {
       this.ctx.strokeStyle = (this.state.colors as [string, string])[
         offset % 2
@@ -26,7 +23,7 @@ export default class Bars {
         const y = this.state.margin
         const size = data[this.state.draw[i * 2 + offset]]
         const height =
-          y + sineOut(size < 1 ? size : 1) * this.state.level * 250
+          y + Math.min(size,1) * this.state.level * 250
 
         this.line(x, y, height)
       }
@@ -43,7 +40,7 @@ export default class Bars {
         const y = this.state.margin
         const size = data[this.state.draw[i]]
         const height =
-          y + sineOut(size < 1 ? size : 1) * this.state.level * 250
+          y + Math.min(size,1) * this.state.level * 250
 
         this.line(x, y, height)
       }
@@ -177,9 +174,14 @@ export default class Bars {
     }
 
     switch (props.audio_direction) {
+      case "up":
+        {
+          horizontal || (this.state.top = top - this.state.height)
+        }
+        break
       case "down":
         {
-          horizontal ? this.state.left = left - this.state.width : this.state.top = top - this.state.height
+          horizontal && (this.state.left = left - this.state.width)
         }
         break
       case "both":

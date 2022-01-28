@@ -93,7 +93,8 @@ const stop = watch(node, () => {
         state._
           ? (d) => {
               ++id > 100 && (id = 0);
-              store.commit("audio", d);
+              const right = d.splice(64,128).reverse()        
+              store.commit("audio", d.concat(right));
             }
           : () => {}
       );
@@ -101,13 +102,7 @@ const stop = watch(node, () => {
       store.commit("render_mode", {
         name: "visualization",
         val: state._,
-        callback: (()=>{
-          if (state._) {
-            return () => serve.draw(store.state.visualization.data);
-          } else {
-            return undefined;
-          }
-        })(),
+        callback: state._ ? () => serve.draw(store.state.visualization.data) : () => {},
       });
     },
     { deep: true, immediate: true }

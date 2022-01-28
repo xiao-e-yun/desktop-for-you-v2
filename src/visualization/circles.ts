@@ -18,7 +18,7 @@ export default class Bars {
       while (i--) {
         const y = this.state.spacing
         const size = data[this.state.draw[i * 2 + offset]]
-        const w = sineOut(size < 1 ? size : 1) * this.state.level
+        const w = Math.min(size,1) * this.state.level
         
         this.line(y, w)
         this.ctx.rotate(angle)
@@ -43,16 +43,12 @@ export default class Bars {
       while (i--) {
         const y = this.state.spacing
         const size = data[this.state.draw[i]]
-        const w = sineOut(size < 1 ? size : 1) * this.state.level
+        const w = Math.min(size,1) * this.state.level
 
         this.line(y, w)
         this.ctx.rotate(angle)
       }
       this.ctx.stroke()
-    }
-
-    function sineOut(t: number) {
-      return Math.sin((t * Math.PI) / 2)
     }
   }
   destroy() {
