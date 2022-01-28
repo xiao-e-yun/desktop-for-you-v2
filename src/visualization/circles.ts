@@ -99,7 +99,7 @@ export default class Bars {
     const total = 128
     const add = total / (props.quantity as number)
     for (let i = 0; Math.ceil(i) <= 127; i += add) pos.push(Math.floor(i))
-    const draw = Array.from(new Set(pos)) //去重
+    const draw = ((arr:number[])=>arr.splice(0,arr.length / 2).concat(arr.reverse()))(Array.from(new Set(pos))) //去重
 
     type Line = Record<typeof direction, (d: number, h: number) => void>;
     const direction = props.audio_direction as "up" | "down" | "both"
@@ -110,12 +110,12 @@ export default class Bars {
           this.ctx.lineTo(d + h, 0)
         },
         down: (d, h) => {
-          const move = d - h >= margin ? d - h: margin
+          const move = Math.max(d - h,margin)
           this.ctx.moveTo(move, 0)
           this.ctx.lineTo(d, 0)
         },
         both: (d, h) => {
-          const move = d - h >= 0 ? d - h: 0
+          const move = Math.max(d - h,0)
           this.ctx.moveTo(move, 0)
           this.ctx.lineTo(d + h, 0)
         },

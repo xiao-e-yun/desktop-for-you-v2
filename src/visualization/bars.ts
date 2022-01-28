@@ -94,7 +94,7 @@ export default class Bars {
     const total = 128
     const add = total / (props.quantity as number)
     for (let i = 0; Math.ceil(i) <= 127; i += add) pos.push(Math.floor(i))
-    const draw = Array.from(new Set(pos)) //去重
+    const draw = ((arr:number[])=>arr.splice(0,arr.length / 2).concat(arr.reverse()))(Array.from(new Set(pos))) //去重
 
     /** 水平 */
     const horizontal = props["type/direction"] === "horizontal"

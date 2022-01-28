@@ -93,8 +93,7 @@ const stop = watch(node, () => {
         state._
           ? (d) => {
               ++id > 100 && (id = 0);
-              const right = d.splice(64,128).reverse()        
-              store.commit("audio", d.concat(right));
+              store.commit("audio", d);
             }
           : () => {}
       );
