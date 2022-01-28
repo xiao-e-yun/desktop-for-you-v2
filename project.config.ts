@@ -762,7 +762,7 @@ builder.config.builder(
                 {
                   id: "cap",
                   type: "combo",
-                  value: "round",
+                  value: "butt",
                   text: {
                     "zh-cht": "頂點形狀",
                     "zh-chs": "顶点形状",
@@ -784,7 +784,7 @@ builder.config.builder(
                         "zh-chs": "方形",
                         "en-us": "Square",
                       },
-                      value: "square", // butt, square 差不多
+                      value: "square",
                     },
 
                     {
@@ -793,7 +793,7 @@ builder.config.builder(
                         "zh-chs": "无",
                         "en-us": "None",
                       },
-                      value: "butt", // butt, square 差不多
+                      value: "butt",
                     },
                   ],
                 },
