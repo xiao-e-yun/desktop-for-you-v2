@@ -57,7 +57,6 @@ export default defineConfig(({ mode }) => {
     plugins,
     build: {
       minify: !dev,
-      target: "esnext",
     },
     ...build_single_file,
   }

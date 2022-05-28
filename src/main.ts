@@ -1,6 +1,10 @@
 import { store, key as store_key } from "@/store"
 import { createApp, watch } from "vue"
 
+import render from "sakurafx-typescript";
+console.log(render);
+
+
 // 快取資料
 const cache = JSON.parse(
   localStorage.getItem("DesktopForYou$PropsCache") || "{}"

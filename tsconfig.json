@@ -13,6 +13,7 @@
     "outDir": "dist",
     "baseUrl": "src",
     "strict": true,
+    "jsx":"preserve",
     "paths": {
       "@/*" : ["./*"],
       "@a/*":["./assets/*"],

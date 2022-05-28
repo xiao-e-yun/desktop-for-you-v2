@@ -11,7 +11,7 @@ transition(name="fade-in" appear): canvas#sakura(
 <script lang="ts" setup>
 import { use_store } from "@/store";
 import { nextTick, ref, watch } from "vue";
-import render from "."
+import render from "sakurafx-typescript";
 const sakura = ref<HTMLCanvasElement>();
 
 const store = use_store()

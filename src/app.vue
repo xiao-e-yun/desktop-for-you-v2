@@ -19,7 +19,7 @@ import Console from '@c/console.vue'
 import Clock from '@p/clock.vue';
 import Date from '@p/date.vue';
 import Logo from '@p/logo.vue';
-import Sakura from '@f/sakura/index.vue';
+import Sakura from '@f/sakura.vue';
 </script>
 
 <style lang="scss">

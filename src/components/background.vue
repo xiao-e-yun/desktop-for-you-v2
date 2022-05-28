@@ -32,7 +32,10 @@ const type = computed(() => {
   const i = props["menu/bg_file"] as number
   index.value = i > 2 ? 0 : false
   return [
-    undefined,
+    {
+      is: "div",
+      src: () => "",
+    },
     {
       is: "img",
       src: () => props["menu/bg_file/img"] || "background.png"
