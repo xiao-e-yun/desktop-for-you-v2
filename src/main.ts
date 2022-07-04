@@ -2,8 +2,6 @@ import { store, key as store_key } from "@/store"
 import { createApp, watch } from "vue"
 
 import render from "sakurafx-typescript";
-console.log(render);
-
 
 // 快取資料
 const cache = JSON.parse(
@@ -142,6 +140,7 @@ builder(window, types_json, {
   general(props) {
     store.commit("sync_time", props.fps)
   },
+  paused(paused) { if (!paused) store.commit("sync_time", true) },
 })
 
 console.info("[初始化] 設置更新模式")
