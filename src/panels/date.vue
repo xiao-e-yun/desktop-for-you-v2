@@ -34,7 +34,7 @@ console.log("[日曆] 加載完成")
 <style lang="scss" module>
 .date {
   @include flip;
-  padding: 0 0.45em;
+  padding: .1em 0.45em 0;
   display: inline-block;
 
   & > p {

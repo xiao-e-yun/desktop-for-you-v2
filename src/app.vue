@@ -25,6 +25,7 @@ import { useStore } from './store';
 import { computed, ref, toRef, watch } from 'vue';
 import type { Ref } from 'vue';
 
+const xy = ref({x:0,y:0})
 const dof = toRef(useStore().props,"menu/effect/DoF") as Ref<boolean>
 watch(dof,v=>{
   if(v) addEventListener("mousemove",dofFn,{passive:true})
@@ -34,7 +35,6 @@ watch(dof,v=>{
   }
 },{immediate:true}) 
 
-const xy = ref({x:0,y:0})
 const style = computed(()=>{
   const { x, y } = xy.value
 
