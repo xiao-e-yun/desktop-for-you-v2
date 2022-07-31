@@ -9,18 +9,20 @@ transition(name="popup" appear): .panel(
 </template>
 
 <script lang="ts" setup>
-import { use_store } from "@/store";
-import { computed, StyleValue } from "vue";
+import { useStore } from "@/store";
+import { computed } from "vue";
+import type { StyleValue } from "vue";
 
 const $props = defineProps<{
   name: keyof typeof props;
   drop_shadow?: boolean;
 }>();
 
-const props = use_store().state.props;
+const props = useStore().props;
 function $(prop: string) {
   return props[($props.name + "/" + prop) as keyof typeof props];
 }
+
 const style = computed(() => {
   const background = (() => {
     if ($("bg/opacity") === 0) return;
@@ -38,7 +40,7 @@ const style = computed(() => {
           ($("border/opacity") as number) / 100
         })`;
 
-  const Shadow = (() => {
+  const shadow = (() => {
     const name = ($props.drop_shadow ? "drop_shadow" : "shadow") + "/";
     const fx =
       !$(name + "width") && !$(name + "opacity")
@@ -56,7 +58,7 @@ const style = computed(() => {
   return {
     ...{
       border,
-      ...Shadow,
+      ...shadow,
       background,
       top: $("pos/top") + "%",
       left: $("pos/left") + "%",
@@ -73,7 +75,7 @@ const style = computed(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 @include style("neon") {
   & .panel * {
     font-weight: 600;

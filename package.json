@@ -7,35 +7,38 @@
   "description": "",
   "scripts": {
     "build": "pnpm config_build && vite build && rmdir /s /q dist\\assets",
-    "dev": "pnpm config_build && vite build -m development -w",
-    "config_build": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} ts-node project.config",
-    "config_dev": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} nodemon --watch project.config.ts project.config.ts",
+    "dev": "pnpm config_build && vite dev --port=8800",
+    "config_build": "tsx project.config.ts --type=commonjs",
+    "config_dev": "tsx watch project.config.ts --type=commonjs",
     "lint": "eslint src project.config.ts --fix"
   },
+  "type": "module",
   "pre-commit": [
     "lint"
   ],
   "dependencies": {
     "tslib": "^2.4.0",
-    "vue": "^3.2.36"
+    "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "@vue/runtime-core": "^3.2.36",
+    "@types/node": "^18.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/runtime-core": "^3.2.37",
     "cross-env": "^7.0.3",
-    "eslint": "^8.16.0",
-    "eslint-plugin-vue": "^8.7.1",
+    "eslint": "^8.20.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "pinia": "^2.0.17",
     "pre-commit": "^1.2.2",
     "pug": "^3.0.2",
     "sakurafx-typescript": "^1.0.3",
-    "sass": "^1.52.1",
-    "typescript": "^4.7.2",
-    "vite": "^2.9.9",
-    "vite-plugin-html": "^2.1.2",
-    "vite-plugin-singlefile": "^0.6.3",
-    "vue-tsc": "^0.30.6",
-    "vuex": "^4.0.2"
+    "sass": "^1.54.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.3",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-singlefile": "^0.11.0",
+    "vite-plugin-vue-pug-with-css-modules": "^1.0.1",
+    "vue-tsc": "^0.39.0"
   }
 }

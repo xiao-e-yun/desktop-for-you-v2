@@ -1,10 +1,9 @@
 <template lang="pug">
 div(
-  :style="style"
   ref="el"
+  :style="style"
   @mousedown="mousedown"
-)
-  slot
+): slot
 </template>
 
 <script lang="ts">

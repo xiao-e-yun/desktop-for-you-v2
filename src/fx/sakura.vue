@@ -1,5 +1,5 @@
 <template lang="pug">
-transition(name="fade-in" appear): canvas#sakura(
+transition(name="fade-in" appear): canvas(
   ref="sakura"
   :width="width"
   :height="height"
@@ -9,13 +9,13 @@ transition(name="fade-in" appear): canvas#sakura(
 </template>
 
 <script lang="ts" setup>
-import { use_store } from "@/store";
+import { useStore } from "@/store";
 import { nextTick, ref, watch } from "vue";
 import render from "sakurafx-typescript";
 const sakura = ref<HTMLCanvasElement>();
 
-const store = use_store()
-const props = store.state.props
+const store = useStore()
+const props = store.props
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -32,12 +32,12 @@ const stop = watch(sakura,(canvas)=>{
   stop()
   const callback = render(canvas)
   if(!callback) return
-  watch(()=>props["menu/effect/sakura"],(val)=>{
-    store.commit("render_mode",{
-      name:"sakura",
+  watch(()=>props["menu/effect/sakura"],val=>{
+    store.watchUpdate(
+      "sakura",
+      val as boolean,
       callback,
-      val,
-    })
+    )
   },{immediate:true})
 })
 

@@ -1,8 +1,4 @@
-<x-template>
-</x-template>
-
 <template lang="pug">
-
 transition(name="popup" appear)
   #console(v-if="props['menu/dev_tools']")
     Drag.item.react_props(:class="{ hide: !show.react_props }")
@@ -14,9 +10,9 @@ transition(name="popup" appear)
         v-if="show.react_props"
       )
         p(
-          v-for="key in Object.keys(props).sort()"
+          v-for="[key,value] in reactProps"
           :key="key"
-        ) {{ key }}: {{ props[key as keyof typeof props] }}
+        ) {{ key }}: {{ value }}
 
 
     Drag.item.react_props.global(:class="{ hide: !show.global }")
@@ -60,7 +56,7 @@ transition(name="popup" appear)
         @mousedown.stop
         v-if="show.helper"
       )
-        button(@click="clear_cache()") 清除快取
+        button(@click="clearCache()") 清除快取
 
 
     transition(name="popup")
@@ -70,22 +66,26 @@ transition(name="popup" appear)
 </template>
 
 <script lang="ts" setup>
-import { store, use_store } from "@/store";
-import { Log, State } from "@/store/state/types";
+import { beforeunload } from "@/main";
+import { useStore } from "@/store";
+import type { Log, State } from "@/store/state/types";
 import Drag from "@c/drag.vue";
+import { computed, reactive, ref } from "vue";
 
-const state = use_store().state;
-const logs: { level: string; text: string; time: string }[] = store.state.logs;
+const store = useStore();
+const logs: { level: string; text: string; time: string }[] = store.logs;
 
-const props = state.props;
+const props = store.props;
 type props = typeof props;
 
 const global = computed(() => {
-  const res: any[] = [];
+  const res: string[] = [];
+
+  const state = store.$state
 
   for (const key in state)
     if (["props", "logs"].indexOf(key) === -1) {
-      let val = state[key as keyof typeof state];
+      let val = state[key as keyof State];
       if (Array.isArray(val))
         val = (val.length > 12
           ? [...val.slice(0, 12), "..."]
@@ -102,90 +102,27 @@ const global = computed(() => {
   return res;
 });
 
+const reactProps = computed<[string,string | number | boolean | undefined][]>(()=>Object.keys(props).sort().map(key=>[key,props[key as keyof props]]));
+
+const show = reactive({
+  react_props: true,
+  helper: true,
+  global: true,
+  logger: true,
+})
+
+const error = ref(false)
+
+function clearCache() {
+  localStorage.clear()
+  removeEventListener("beforeunload", beforeunload)
+  error.value = true
+}
+
 console.log("[控制台] 加載完成")
 </script>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
-
-export default defineComponent({
-  data() {
-    return {
-      hot_reload: {
-        timer: undefined as unknown as NodeJS.Timer,
-        text: "",
-      },
-      error: false,
-      show: JSON.parse(sessionStorage.getItem("DesktopForYou$DevTools") ?? "null") || {
-        react_props: true,
-        global: true,
-        logger: true,
-        helper: true,
-      },
-    };
-  },
-  methods: {
-    clear_cache() {
-      localStorage.removeItem("DesktopForYou$PropsCache");
-      window.removeEventListener("beforeunload", this.before_unload);
-      this.error = !this.error;
-    },
-    before_unload() {
-      const save = ["props", "fetch", "fps"];
-
-      const saved = {} as { [key: string]: any };
-      for (const key in this.$store.state) {
-        if (save.indexOf(key) === -1) continue;
-        type key = keyof State;
-        saved[key] = this.$store.state[key as key];
-      }
-
-      localStorage.setItem("DesktopForYou$PropsCache", JSON.stringify(saved));
-    },
-  },
-  mounted() {
-    window.addEventListener("beforeunload", this.before_unload);
-
-    store.watch(
-      (e) => e.props["menu/dev_tools"],
-      async (e) => {
-        if (e) {
-          if (!this.hot_reload.text) this.hot_reload.text = await get();
-          this.hot_reload.timer = setInterval(async () => {
-            if (
-              this.hot_reload.text !== ((await get()) || this.hot_reload.text)
-            )
-              location.reload();
-          }, 1500);
-        } else if (this.hot_reload.timer !== undefined)
-          clearInterval(this.hot_reload.timer);
-
-        function get(): Promise<string> {
-          return new Promise((resolve) => {
-            const xml_http = new XMLHttpRequest();
-            xml_http.onreadystatechange = function () {
-              if (xml_http.readyState === 4) resolve(xml_http.responseText);
-            };
-            xml_http.open("GET", "index.html");
-            xml_http.send(null);
-          });
-        }
-      },
-      { immediate: true }
-    );
-  },
-  watch: {
-    show: {
-      handler(val: Record<string, boolean>) {
-        sessionStorage.setItem("DesktopForYou$DevTools", JSON.stringify(val));
-      },
-      deep: true,
-    },
-  },
-});
-</script>
-
-<style lang="scss">
+<style lang="scss" module>
 #console {
   @include flip;
   pointer-events: none;

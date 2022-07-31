@@ -1,4 +1,4 @@
-import { State } from "@/store/state/types"
+import type { State } from "@/store/state/types"
 import { computed, watch } from "vue"
 
 type Filter<W = keyof State["props"]> =

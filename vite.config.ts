@@ -1,31 +1,34 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig, Plugin } from 'vite'
+import { plugin as picm } from "vite-plugin-vue-pug-with-css-modules";
 import { viteSingleFile } from "vite-plugin-singlefile"
-import { minifyHtml } from 'vite-plugin-html'
-import { exec } from 'child_process'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import vue from '@vitejs/plugin-vue'
+import fs from "fs"
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const dev = mode === 'development'
   console.log(`dev: ${dev}`)
 
-  const plugins = [
-    vue(),
-  ]
+  const plugins = [picm(),vue()]
+
+  plugins.push(createHtmlPlugin({minify: !dev}) as unknown as Plugin)
+  
   if(dev){
-    exec("http-server ./dist -p 8800",(e)=>console.error("need http-server\nuse npm i -g http-server"))
+    fs.writeFileSync('./dist/index.html', `<html><head><script>location.href="http://localhost:8800/"</script></head></html>`)
   }else{
     plugins.push(viteSingleFile())
-    plugins.push(minifyHtml())
   }
 
   const build_single_file = dev?{
     base: 'http://localhost:8800/',
     build:{
+      minify: false,
       sourcemap: true,
     }
   }:{
     build:{
+      minify: true,
       assetsInlineLimit: Infinity,
       chunkSizeWarningLimit: Infinity,
       cssCodeSplit: false,
@@ -40,6 +43,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    
     css: {
       preprocessorOptions: {
         scss: { additionalData: `@import "@/page.scss";` },
@@ -55,9 +59,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     plugins,
-    build: {
-      minify: !dev,
-    },
     ...build_single_file,
+    
   }
 })

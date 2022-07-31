@@ -1,5 +1,5 @@
+import type { Prop, TextLang } from "./builder/node/config/prop_type"
 import builder from "./builder/node"
-import { Prop, TextLang } from "./builder/node/config/prop_type"
 const ignore = true
 
 builder.config.builder(
@@ -53,7 +53,7 @@ builder.config.builder(
           "zh-chs":
             "如果喜欢的话，请留下评价<img src='https://static.xiaoeyun.me/img/%E5%BD%88%E7%8F%A0%E6%B1%BD%E6%B0%B4.png' width='100%'>",
           "en-us":
-            "If you like, please leave a review<img src='https://static.xiaoeyun.me/img/%E5%BD%88%E7%8F%A0%E6%B1%BD%E6%B0%B4.png' width='100%' >",
+            "If you like, please leave a review<img src='https://static.xiaoeyun.me/img/%E5%BD%88%E7%8F%A0%E6%B1%BD%E6%B0%B4.png' width='100%'>",
         },
       ],
     },
@@ -508,6 +508,25 @@ builder.config.builder(
                       },
                     }
                   ]
+                },
+                {
+                  label: {
+                    "zh-cht": "景深",
+                    "zh-chs": "景深",
+                    "en-us": "DoF",
+                  },
+                  value:[
+                    {
+                      id: "DoF",
+                      type: "bool",
+                      value: true,
+                      text: {
+                        "zh-cht": "景深",
+                        "zh-chs": "景深",
+                        "en-us": "Depth of field",
+                      },
+                    }
+                  ]
                 }
               ]
             },
@@ -901,7 +920,7 @@ builder.config.builder(
     },
   ],
   {
-    out_config: "public/project.json",
+    out_config: "dist/project.json",
     out_types: "types.json",
     custom: {
       general: {

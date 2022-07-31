@@ -1,96 +1,29 @@
-import { store, key as store_key } from "@/store"
-import { createApp, watch } from "vue"
+import { createPinia } from 'pinia'
+import { useStore } from './store'
+import { createApp } from "vue"
 
-// 快取資料
-const cache = JSON.parse(
-  localStorage.getItem("DesktopForYou$PropsCache") || "{}"
-)
-type State = typeof store.state;
-type Key = keyof State;
-for (const key in cache) (store.state[key as Key] as State[Key]) = cache[key]
-
-if (!(import.meta.env.MODE === "development"))
-  (($console: Console) => {
-    function timeline() {
-      const time = new Date()
-      const fixed = (num: number, pad = 2): string =>
-        num.toString().padStart(pad, "0")
-      return `${fixed(time.getHours())}:${fixed(time.getMinutes())}:${fixed(
-        time.getSeconds()
-      )}:${fixed(time.getMilliseconds(), 3)}`
-    }
-    type console_type = "debug" | "info" | "log" | "warn" | "error";
-    function log(level: console_type, ...args: unknown[]) {
-      const arg = args
-        .map((e) => (typeof e === "object" ? JSON.stringify(e) : e))
-        .join(" ")
-      $console[level](arg)
-      store.commit("_log", {
-        level,
-        time: timeline(),
-        text: arg,
-      })
-    }
-
-    /* eslint-disable */
-    const nomal = {
-      ...$console,
-      log() {}, // eslint-disable-line
-      warn() {}, // eslint-disable-line
-      info() {}, // eslint-disable-line
-      debug() {}, // eslint-disable-line
-      error() {}, // eslint-disable-line
-      clear() {}, // eslint-disable-line
-    }
-    /* eslint-enable */
-
-    const dev = {
-      ...$console,
-      debug(...args: unknown[]) {
-        log("debug", ...args)
-      },
-      info(...args: unknown[]) {
-        log("info", ...args)
-      },
-      log(...args: unknown[]) {
-        log("log", ...args)
-      },
-      warn(...args: unknown[]) {
-        log("warn", ...args)
-      },
-      error(...args: unknown[]) {
-        log("error", ...args)
-      },
-      clear() {
-        store.commit("_log")
-        $console.clear()
-      },
-    }
-
-    watchFn(store.state.props["menu/dev_tools"] as boolean)
-    watch(
-      () => store.state.props["menu/dev_tools"],
-      (v) => watchFn(v as boolean),
-    )
-    function watchFn(v: boolean){
-      if (v) {
-        window.console = dev
-        console.debug("[開發者模式] 正在紀錄中")
-      } else {
-        console.clear()
-        window.console = nomal
-      }
-    }
-  })(window.console)
-//
+import TypesJson from "../types.json"
 import builder from "../builder/browser"
-import types_json from "../types.json"
+
 import app from "@/app.vue"
+
+const pinia = createPinia()
+const store = useStore(pinia)
+
+//cache
+const propsCache = JSON.parse(localStorage.getItem("DesktopForYou$PropsCache")||"{}")
+store.$state.props = propsCache
+
+addEventListener("beforeunload", beforeunload)
+
+export function beforeunload() {
+  localStorage.setItem("DesktopForYou$PropsCache", JSON.stringify(store.props))
+}
 
 
 export type RealName = {
-  prop: typeof types_json["mapping"];
-  fetch: typeof types_json["directory"]["fetch"];
+  prop: typeof TypesJson["mapping"];
+  fetch: typeof TypesJson["directory"]["fetch"];
 };
 
 console.info("[初始化] 創建效果配置")
@@ -109,40 +42,45 @@ const filter = {
         : "")
     )
   },
-  flip: false,
 }
-console.info("[初始化] 加載配置生成器")
-builder(window, types_json, {
-  props(key, val) {
-    const base = ["$flip", "$wec_brs", "$wec_con", "$wec_hue", "$wec_sa"]
-    if (!base.includes(key)) return store.commit("set_prop", { key, val })
 
+console.info("[初始化] 加載配置生成器")
+builder(window, TypesJson, {
+  props(key, val) {
+
+    const base = ["$flip", "$wec_brs", "$wec_con", "$wec_hue", "$wec_sa"]
+    if (!base.includes(key)) return store.setProp(key, val)
+
+    // 特殊屬性
+    const body = document.body
+
+    // 切換翻轉
+    if(key as "$flip" === "$flip")
+      return body.classList[val as boolean ? "add" : "remove"]("flip")
+
+    // 切換配置
     const name = {
-      $flip: "flip",
       $wec_brs: "brightness",
       $wec_con: "contrast",
       $wec_hue: "hue-rotate",
       $wec_sa: "saturate",
-    }[key as "$flip"] as "flip"
-    type Val = number | boolean;
-    (filter as unknown as Record<string, Val>)[name] = val as Val
-
-    const body = document.body
-    body.classList[filter?.flip ? "add" : "remove"]("flip")
+    }[key as "$wec_brs"]
+    filter[name as "brightness"] = val as number
     body.style.filter = filter ? filter?.mixin() : ""
-    if (name === "flip") store.commit(name, val)
   },
   fetch(key, files) {
-    store.commit("dir_fetch", { key, files })
+    store.dirFetch(key, files)
   },
   general(props) {
-    store.commit("sync_time", props.fps)
+    store.changeFPS(props.fps)
   },
-  paused(paused) { if (!paused) store.commit("sync_time", true) },
+  paused(paused) {
+    if (!paused) store.syncTime(true)
+  },
 })
 
 console.info("[初始化] 設置更新模式")
-store.commit("render_mode")
+store.watchUpdate() //初始化
 
 console.info("[初始化] 創建軟體")
-createApp(app).use(store, store_key).mount("body")
+createApp(app).use(pinia).mount("body")

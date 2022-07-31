@@ -9,8 +9,10 @@ transition(name="popup" appear): canvas#visualization(
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, CSSProperties, watch, nextTick } from "vue";
-import { use_store } from "@/store";
+import { reactive, ref, watch, nextTick } from "vue";
+import { useStore } from "@/store";
+import type { CSSProperties } from "vue"
+
 import bars from "./bars";
 import circles from "./circles";
 
@@ -20,8 +22,8 @@ let height = ref(window.innerHeight);
 const node = ref<HTMLCanvasElement>();
 const style = reactive({}) as CSSProperties;
 
-const store = use_store();
-const props = store.state.props;
+const store = useStore();
+const props = store.props;
 
 const state = reactive({
   _: props["menu/visualization"],
@@ -93,16 +95,16 @@ const stop = watch(node, () => {
         state._
           ? (d) => {
               ++id > 100 && (id = 0);
-              store.commit("audio", d);
+              store.visualization = d;
             }
           : () => {}
       );
 
-      store.commit("render_mode", {
-        name: "visualization",
-        val: state._,
-        callback: state._ ? () => serve.draw(store.state.visualization.data) : () => {},
-      });
+      store.watchUpdate(
+        "visualization",
+        state._ as boolean,
+        state._ ? () => serve.draw(store.visualization) : () => {},
+      );
     },
     { deep: true, immediate: true }
   );

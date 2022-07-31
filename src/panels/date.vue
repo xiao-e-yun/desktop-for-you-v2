@@ -1,31 +1,21 @@
 <template lang="pug">
-Panel#date(name="menu/date")
-  div.flip(v-if="store.state.flip")
-    p 
-      span {{ pad(time.month+1) }}
-      |&nbsp;|&nbsp;
-      span {{ pad(time.date) }}
-    p(
-      v-if="props['menu/date/week']"
-      :class="{ bold: props['menu/date/week/format'] !== 'en' }"
-    ) &nbsp;{{ week }}
-  template(v-else)
-    p 
-      span {{ pad(time.month+1) }}
-      |&nbsp;|&nbsp;
-      span {{ pad(time.date) }}
-    p(
-      v-if="props['menu/date/week']"
-      :class="{ bold: props['menu/date/week/format'] !== 'en' }"
-    ) &nbsp;{{ week }}
+Panel.date(name="menu/date")
+  p 
+    span {{ pad(time.month+1) }}
+    |&nbsp;|&nbsp;
+    span {{ pad(time.date) }}
+  p(
+    v-if="props['menu/date/week']"
+    :class="{ bold: props['menu/date/week/format'] !== 'en' }"
+  ) &nbsp;{{ week }}
 </template>
 
 <script lang="ts" setup>
 import Panel from '@c/panel.vue';
-import { store, use_store } from '@/store';
+import { useStore } from '@/store';
 import { computed } from 'vue';
 
-const state = use_store().state
+const state = useStore()
 const props = state.props
 const time = state.time
 
@@ -41,19 +31,15 @@ function pad(time: number) { return time.toString().padStart(2, "0") }
 console.log("[日曆] 加載完成")
 </script>
 
-<style lang="scss">
-#date {
+<style lang="scss" module>
+.date {
+  @include flip;
   padding: 0 0.45em;
   display: inline-block;
 
-  & > .flip {
-    display: inline-block;
-    transform: scaleX(-1);
-  }
-
-  & p {
-    display: inline;
+  & > p {
     margin: 0;
+    display: inline;
     font-size: 1.2em;
 
     &.bold {

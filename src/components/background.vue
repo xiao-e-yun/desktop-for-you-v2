@@ -1,31 +1,41 @@
 <template lang="pug">
-transition(name="fade-in" appear :class="{dev:props['menu/dev_tools']}")
-  component#background(
-    :style="style"
-    :src="type.src()"
-    :is="type.is"
-    v-if="type"
-    v-bind="bind"
+.background
+  transition(name="fade-in" appear)
+    component.main(
+      :style="style"
+      :src="type.src()"
+      :is="type.is"
+      v-if="type"
+      v-bind="bind"
 
-    :class="{changing}"
-    v-on="mouse.event"
-    @animationend="change"
+      :class="[direction,{changing},{dev}]"
+      v-on="mouse.event"
+      @animationend="change"
+    )
+  component.over(
+    :style="style"
+    :src="type.offset(mouse.move > 0 ? 1 : -1)"
+    :is="type.is"
+    v-if="type && type.list && (changing || (mouse.allow && mouse.move))"
+    :class="[direction,{changing},{dev}]"
   )
-component#background-over(
-  :style="style"
-  :src="type.offset(mouse.move > 0 ? 1 : -1)"
-  :is="type.is"
-  v-if="type && type.list && (changing || (mouse.allow && mouse.move))"
-  :class="[mouse.move > 0 ? 'left' : 'right',{changing}]"
-)
 </template>
 
 <script lang="ts" setup>
-import { use_store } from '@/store';
-import { computed, CSSProperties, reactive, ref } from 'vue';
-const state = use_store().state
-const fetch = state.fetch
-const props = state.props
+import { useStore } from '@/store';
+import { computed, reactive, ref, toRef } from 'vue';
+import type { CSSProperties } from "vue"
+
+const store = useStore()
+const fetch = store.fetch
+const props = store.props
+
+// 開發模式
+const dev = toRef(props,"menu/dev_tools")
+
+//======================================================
+// 切換背景模式
+//======================================================
 
 const index = ref<number | false>(false)
 const type = computed(() => {
@@ -59,10 +69,16 @@ const type = computed(() => {
   ][i]
 })
 
-const bind = computed(()=>(type.value && type.value.is)?{
-  loop:type.value.is==='video',
-  autoplay:type.value.is==='video'
+
+
+const bind = computed(()=>(type.value && type.value.is==='video')?{
+  autoplay:true,
+  loop:true,
 }:{})
+
+//======================================================
+// 樣式
+//======================================================
 
 const style = computed(() => {
   const change = (changing.value||(mouse.down && mouse.allow))
@@ -75,10 +91,11 @@ const style = computed(() => {
   } as CSSProperties
 })
 
+//======================================================
+// 幻燈片
+//======================================================
 
-
-
-
+const direction = computed(()=>mouse.down ? mouse.move > 0 ? 'left' : 'right' : undefined)
 
 const mouse = reactive({
   allow: ref(false),
@@ -119,6 +136,7 @@ const mouse = reactive({
     return event
   })
 })
+
 function change(){
   const length = (type.value?.list && type.value.list.length) as number
   if(!length) return
@@ -135,31 +153,46 @@ const changing = ref(false)
 const offset = computed(()=>Math.min(mouse.move * 10 / mouse.max,mouse.max))
 </script>
 
-<style lang="scss">
-#background,#background-over{
-  z-index: -10;
+<style lang="scss" module>
+.background {
   position: fixed;
+  z-index: -10;
   height: 100%;
   width: 100%;
   top: 0;
-
-  &.changing{
-    animation: bg_changing 1.6s linear backwards;
-    @keyframes bg_changing {
-      to{ transform: translateX(100%) }
-    }
-  }
 }
-#background {
-  left: 0;
-  transition: none;
-  transition: filter .6s ease-in-out;
+
+.main,.over{
+  height: 100%;
+  width: 100%;
 
   &.dev {
     filter: brightness(.2);
   }
+
+  &.changing{
+    &.left{
+      animation: left_changing 1.6s ease-in-out backwards;
+      @keyframes left_changing {
+        to{ transform: translateX(100%) }
+      }
+    }
+    &.right{
+      animation: right_changing 1.6s ease-in-out backwards;
+      @keyframes right_changing {
+        to{ transform: translateX(-100%) }
+      }
+    }
+  }
 }
-#background-over {
+.main {
+  left: 0;
+  transition: none;
+  transition: filter .6s ease-in-out;
+
+
+}
+.over {
   &.left { left: -100%; }
   &.right { right: -100%; }
 }

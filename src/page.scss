@@ -8,12 +8,12 @@ $border: $main solid 2px;
 $bor_width: 2px;
 
 @mixin style($type: "") {
-  body.#{$type} {
+  body:global(.#{$type}) {
     @content;
   }
 }
 @mixin flip {
-  @at-root body.flip & {
+  @at-root body:global(.flip) & {
     transform: scaleX(-1);
   }
 }

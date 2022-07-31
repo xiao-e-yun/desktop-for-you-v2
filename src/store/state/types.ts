@@ -11,20 +11,20 @@ export interface State {
   /** 紀錄器 */
   logs:Log[]
   /** 高使用率(啟用特效時) */
-  high_ute:{
-    _:{[key:string]:(()=>void)|undefined},
+  highUTE:{
+    /** 使用中 */
+    using:{[key:string]:(()=>void)|undefined},
+    /**  */
     callbacks:(()=>void)[]
+    /**  */
     old:number,
+    /**  */
     length:number
   }
   /** 音效可視化 */
-  visualization:{
-    data: number[]
-  },
+  visualization: number[]
   /** 同步計時器 */
-  _sync_timer?:NodeJS.Timer
-  /** 效果 */
-  flip:boolean
+  _syncTimer?:NodeJS.Timer
 }
 
 

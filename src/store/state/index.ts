@@ -6,14 +6,11 @@ export default {
 	time:{} as Time,
 	logs:[],
 	spf:0,
-	high_ute:{
-		_:{},
+	highUTE:{
+		using:{},
     old:0,
 		length:0,
 		callbacks:[],
 	},
-	visualization:{
-		data:[]
-	},
-	flip:false,
+	visualization:[],
 } as State
