@@ -483,7 +483,7 @@ builder.config.builder(
                 "zh-chs": "显示全部",
                 "en-us": "Show All",
               },
-              value: 0,
+              value: -1,
               text: {
                 "zh-cht": "<h2>特效<small>Fx</small></h2>",
                 "zh-chs": "<h2>特效<small>Fx</small></h2>",
@@ -519,7 +519,7 @@ builder.config.builder(
                     {
                       id: "DoF",
                       type: "bool",
-                      value: true,
+                      value: false,
                       text: {
                         "zh-cht": "景深",
                         "zh-chs": "景深",
@@ -920,7 +920,7 @@ builder.config.builder(
     },
   ],
   {
-    out_config: "dist/project.json",
+    out_config: "public/project.json",
     out_types: "types.json",
     custom: {
       general: {

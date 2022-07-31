@@ -1,5 +1,5 @@
 <template lang="pug">
-transition(name="popup" appear): canvas#visualization(
+transition(name="popup" appear): canvas.visualization(
   ref="node"
   :width="width"
   :height="height"
@@ -111,8 +111,8 @@ const stop = watch(node, () => {
 });
 </script>
 
-<style lang="scss">
-#visualization {
+<style lang="scss" module>
+.visualization {
   pointer-events: none;
   position: fixed;
   top: 0;

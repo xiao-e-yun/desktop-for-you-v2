@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
     plugins.push(viteSingleFile())
   }
 
-  const build_single_file = dev?{
+  const buildSingleFile = dev?{
     base: 'http://localhost:8800/',
     build:{
       minify: false,
@@ -29,16 +29,6 @@ export default defineConfig(({ mode }) => {
   }:{
     build:{
       minify: true,
-      assetsInlineLimit: Infinity,
-      chunkSizeWarningLimit: Infinity,
-      cssCodeSplit: false,
-      brotliSize: false,
-      rollupOptions: {
-        inlineDynamicImports: true,
-        output: {
-          manualChunks: () => "",
-        },
-      },
     }
   }
 
@@ -59,7 +49,7 @@ export default defineConfig(({ mode }) => {
       }
     },
     plugins,
-    ...build_single_file,
+    ...buildSingleFile,
     
   }
 })

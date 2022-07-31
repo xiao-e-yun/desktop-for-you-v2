@@ -6,7 +6,7 @@
   "keywords": [],
   "description": "",
   "scripts": {
-    "build": "pnpm config_build && vite build && rmdir /s /q dist\\assets",
+    "build": "pnpm config_build && vite build",
     "dev": "pnpm config_build && vite dev --port=8800",
     "config_build": "tsx project.config.ts --type=commonjs",
     "config_dev": "tsx watch project.config.ts --type=commonjs",
