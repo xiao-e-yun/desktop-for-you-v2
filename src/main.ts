@@ -79,8 +79,5 @@ builder(window, TypesJson, {
   },
 })
 
-console.info("[初始化] 設置更新模式")
-store.watchUpdate() //初始化
-
 console.info("[初始化] 創建軟體")
 createApp(app).use(pinia).mount("body")
