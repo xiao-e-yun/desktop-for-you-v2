@@ -22,7 +22,7 @@ export const useStore = defineStore('main', {
         }
         case "menu/force_fixed_fps": {
           this.watchUpdate(
-            "fixed_fps",
+            "fixedFps",
             val as boolean,
           )
           break
@@ -105,13 +105,12 @@ export const useStore = defineStore('main', {
         let last = 0 //上次更新時間
         
         //每幀更新函式
-        const request_animation = (id: number) => {
+        const requestAnimation = (now: number) => {
 
           if (highUTE.length === 0) return // 停止
-          requestAnimationFrame(request_animation)
+          requestAnimationFrame(requestAnimation)
 
-          const now = performance.now()
-          if (now - last <= this.spf) return cancelAnimationFrame(id)
+          if (now - last <= this.spf) return
           this.syncTime()
 
           const callbacks = highUTE.callbacks
@@ -120,7 +119,9 @@ export const useStore = defineStore('main', {
           last = now
 
         }
-        request_animation(0)
+
+        requestAnimation(0)
+        
       }
 
       //設置上次模式
