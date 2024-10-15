@@ -22,22 +22,46 @@ import Date from '@p/date.vue';
 import Logo from '@p/logo.vue';
 import Fx from '@p/fx.vue';
 import { useStore } from './store';
-import { computed, ref, toRef, watch } from 'vue';
+import { CSSProperties, ref, toRef, watch } from 'vue';
 import type { Ref } from 'vue';
 
-const xy = ref({x:0,y:0})
-const dof = toRef(useStore().props,"menu/effect/DoF") as Ref<boolean>
-watch(dof,v=>{
-  if(v) addEventListener("mousemove",dofFn,{passive:true})
+const store = useStore()
+const dof = toRef(store.props, "menu/effect/DoF") as Ref<boolean>
+
+
+//取得 xy
+let xy = { x: 0, y: 0 }
+watch(dof, v => {
+  store.watchUpdate("DoF", v, () => { style.value = calcStyle() })
+  if (v) addEventListener("mousemove", dofFn, { passive: true })
   else {
-    removeEventListener("mousemove",dofFn)
-    xy.value = {x:0,y:0}
+    removeEventListener("mousemove", dofFn)
+    xy = { x: 0, y: 0 } //reset
+    style.value = calcStyle()
   }
-},{immediate:true}) 
 
-const style = computed(()=>{
-  const { x, y } = xy.value
+  function dofFn(e: MouseEvent) {
+    xy = {
+      x: e.x - window.innerWidth / 2,
+      y: e.y - window.innerHeight / 2
+    }
+  }
+}, { immediate: true })
 
+let id = ""
+const style = ref(calcStyle())
+
+function calcStyle(): {
+  fx: CSSProperties,
+  panels: CSSProperties,
+  background: CSSProperties,
+  visualization: CSSProperties,
+} {
+  const newId = xy.x + "." + xy.y
+  if (id === newId) return style.value
+  id = newId
+
+  const { x, y } = xy
   const background = transform(-100)
   background.transform += `scale(1.1)`
 
@@ -47,19 +71,12 @@ const style = computed(()=>{
   return {
     background,
     fx,
-    visualization:transform(-60),
-    panels:transform(-50),
+    visualization: transform(-60),
+    panels: transform(-50),
   }
 
-  function transform(v:number){
-    return { transform: `translate(${(x/v)}px,${(y/v)}px) ` }
-  }
-})
-
-function dofFn(e: MouseEvent) {
-  xy.value = {
-    x: e.x - window.innerWidth / 2,
-    y: e.y - window.innerHeight / 2
+  function transform(v: number) {
+    return { transform: `translate(${(x / v)}px,${(y / v)}px) ` }
   }
 }
 </script>
@@ -89,4 +106,5 @@ body {
   }
 }
 </style>
+
 <style src="@/root.scss" />
